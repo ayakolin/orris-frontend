@@ -34,6 +34,7 @@ interface AdvancedOptionsFieldsProps {
   ruleType: string;
   formData: {
     ipVersion: string;
+    listenIp: string;
     bindIp: string;
     trafficMultiplier?: number;
     sortOrder?: number;
@@ -104,6 +105,22 @@ export const AdvancedOptionsFields: React.FC<AdvancedOptionsFieldsProps> = ({
                   <SelectItem value="ipv6">IPv6</SelectItem>
                 </SelectContent>
               </Select>
+            </FormField>
+          )}
+
+          {/* Listen IP */}
+          {!isExternal && (
+            <FormField
+              label={t('admin.forwardRules.form.listenIp')}
+              hint={t('admin.forwardRules.form.listenIpHint')}
+              className="col-span-6 sm:col-span-2"
+            >
+              <Input
+                value={formData.listenIp}
+                onChange={(e) => onFieldChange('listenIp', e.target.value)}
+                placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                className="font-mono"
+              />
             </FormField>
           )}
 

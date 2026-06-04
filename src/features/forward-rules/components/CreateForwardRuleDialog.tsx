@@ -562,6 +562,7 @@ export const CreateForwardRuleDialog: React.FC<CreateForwardRuleDialogProps> = (
               ruleType={form.formData.ruleType}
               formData={{
                 ipVersion: form.formData.ipVersion,
+                listenIp: form.formData.listenIp,
                 bindIp: form.formData.bindIp,
                 trafficMultiplier: form.formData.trafficMultiplier,
                 sortOrder: form.formData.sortOrder,

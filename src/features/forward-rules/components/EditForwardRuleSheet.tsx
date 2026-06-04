@@ -553,6 +553,15 @@ export const EditForwardRuleSheet: React.FC<EditForwardRuleSheetProps> = ({
             <div className="space-y-4 pt-2">
               {!isExternal && (
                 <>
+                  <FormField label={t('admin.forwardRules.form.listenIp')} hint={t('admin.forwardRules.form.listenIpHint')}>
+                    <MobileFormInput
+                      placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                      value={form.formData.listenIp || ''}
+                      onChange={(value) => form.handleChange('listenIp', value)}
+                      className="font-mono"
+                    />
+                  </FormField>
+
                   <FormField label={t('admin.forwardRules.form.bindIp')} hint={t('admin.forwardRules.form.bindIpHint')}>
                     <MobileFormInput
                       placeholder={t('common.optional')}
