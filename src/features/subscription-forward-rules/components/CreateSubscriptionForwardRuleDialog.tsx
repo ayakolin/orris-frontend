@@ -88,6 +88,7 @@ export const CreateSubscriptionForwardRuleDialog: React.FC<
     chainAgentIds: [] as string[],
     chainPortConfig: {} as Record<string, number>,
     name: '',
+    listenIp: '',
     listenPort: '',
     targetAddress: '',
     targetPort: '',
@@ -122,6 +123,7 @@ export const CreateSubscriptionForwardRuleDialog: React.FC<
         chainAgentIds: [],
         chainPortConfig: {},
         name: '',
+        listenIp: '',
         listenPort: '',
         targetAddress: '',
         targetPort: '',
@@ -284,6 +286,7 @@ export const CreateSubscriptionForwardRuleDialog: React.FC<
       agentId: formData.agentId,
       ruleType: formData.ruleType,
       name: formData.name.trim(),
+      listenIp: formData.listenIp.trim() || undefined,
       listenPort: formData.listenPort ? parseInt(formData.listenPort) : undefined,
       sortOrder: formData.sortOrder ? parseInt(formData.sortOrder) : undefined,
       protocol: formData.protocol,
@@ -694,7 +697,19 @@ export const CreateSubscriptionForwardRuleDialog: React.FC<
               <h3 className="text-sm font-medium text-muted-foreground mb-3">{t('admin.forwardRules.form.forwardConfig')}</h3>
               <Separator className="mb-4" />
               <div className="@container grid grid-cols-1 @md:grid-cols-2 gap-4">
-                {/* Listen port */}
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="sub-listenIp">{t('admin.forwardRules.form.listenIp')}</Label>
+                  <Input
+                    id="sub-listenIp"
+                    value={formData.listenIp}
+                    onChange={(e) => handleChange('listenIp', e.target.value)}
+                    placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                    className="font-mono"
+                    disabled={isCreating}
+                  />
+                  <p className="text-xs text-muted-foreground">{t('admin.forwardRules.form.listenIpHint')}</p>
+                </div>
+
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="sub-listenPort">{t('admin.forwardRules.form.listenPort')}</Label>
                   <Input

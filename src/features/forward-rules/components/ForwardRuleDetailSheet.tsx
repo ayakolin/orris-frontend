@@ -53,6 +53,7 @@ import { RouteConfigDisplay } from '@/features/nodes/components/RouteConfigDispl
 import { cn } from '@/lib/utils';
 import { cardStyles } from '@/lib/ui-styles';
 import { ENABLED_STATUS_CONFIG } from '@/shared/constants/status-config';
+import { formatListenAddress } from '@/shared/utils/listen-address';
 import type {
   ForwardRule,
   ForwardAgent,
@@ -409,13 +410,15 @@ const SyncStatus = ({
         return (
           <div key={agent.agentId} className="px-3 py-2.5">
             <div className="flex items-center justify-between mb-1">
-              <div className="flex items-center gap-2">
-                <Bot className="size-3.5 text-muted-foreground" />
-                <span className="text-sm font-medium truncate max-w-[120px]">{agent.agentName}</span>
-                {agent.listenPort > 0 && (
-                  <span className="text-xs text-muted-foreground font-mono">:{agent.listenPort}</span>
-                )}
-              </div>
+        <div className="flex items-center gap-2">
+          <Bot className="size-3.5 text-muted-foreground" />
+          <span className="text-sm font-medium truncate max-w-[120px]">{agent.agentName}</span>
+          {agent.listenPort > 0 && (
+            <span className="text-xs text-muted-foreground font-mono">
+              {formatListenAddress(agent.listenIp, agent.listenPort)}
+            </span>
+          )}
+        </div>
             </div>
             <div className="flex items-center gap-4 text-xs">
               <div className="flex items-center gap-1">
@@ -473,9 +476,7 @@ export const ForwardRuleDetailSheet = ({
   const RuleTypeIcon = ruleTypeConfig.icon;
 
   const entryAgent = agentsMap[rule.agentId];
-  const entryAddress = entryAgent?.publicAddress
-    ? `${entryAgent.publicAddress}:${rule.listenPort}`
-    : `:${rule.listenPort}`;
+  const entryAddress = formatListenAddress(rule.listenIp, rule.listenPort, entryAgent?.publicAddress);
 
   const isRunning = rule.status === 'enabled' && (polledStatus?.overallRunStatus || rule.runStatus) === 'running';
   const isExternal = rule.ruleType === 'external';
@@ -560,6 +561,11 @@ export const ForwardRuleDetailSheet = ({
               <Section title={t('admin.forwardRules.detail.serverInfo')}>
                 <Row label={t('admin.forwardRules.detail.serverAddress')} value={rule.serverAddress || '-'} mono />
                 <Row label={t('admin.forwardRules.detail.listenPort')} value={rule.listenPort} mono />
+                <Row
+                  label={t('admin.forwardRules.detail.listenIp')}
+                  value={rule.listenIp || t('admin.forwardRules.form.allListenIps')}
+                  mono
+                />
                 {rule.targetNodeId && (
                   <Row
                     label={t('admin.forwardRules.detail.targetNode')}

@@ -350,8 +350,21 @@ export const CreateForwardRuleSheet: React.FC<CreateForwardRuleSheetProps> = ({
                 </FormField>
 
                 <FormField
+                  label={t('admin.forwardRules.form.listenIp')}
+                  hint={t('admin.forwardRules.form.listenIpHint')}
+                >
+                  <MobileFormInput
+                    placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                    value={form.formData.listenIp}
+                    onChange={(value) => form.handleChange('listenIp', value)}
+                    className="font-mono"
+                  />
+                </FormField>
+
+                <FormField
                   label={t('admin.forwardRules.form.externalSource')}
                   hint={t('common.optional')}
+                  className="col-span-2"
                 >
                   <MobileFormInput
                     placeholder={t('admin.forwardRules.form.externalSourcePlaceholder')}
@@ -409,6 +422,19 @@ export const CreateForwardRuleSheet: React.FC<CreateForwardRuleSheetProps> = ({
                     placeholder={t('common.auto')}
                     value={form.formData.listenPort ? String(form.formData.listenPort) : ''}
                     onChange={(value) => form.handleChange('listenPort', parseInt(value, 10) || 0)}
+                    className="font-mono"
+                  />
+                </FormField>
+
+                <FormField
+                  label={t('admin.forwardRules.form.listenIp')}
+                  hint={t('admin.forwardRules.form.listenIpHint')}
+                  className="col-span-2"
+                >
+                  <MobileFormInput
+                    placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                    value={form.formData.listenIp}
+                    onChange={(value) => form.handleChange('listenIp', value)}
                     className="font-mono"
                   />
                 </FormField>

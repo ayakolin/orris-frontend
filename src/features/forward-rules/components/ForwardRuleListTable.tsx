@@ -28,6 +28,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/common/Pop
 import { CopyableAddressRow } from '@/components/common/CopyableAddress';
 import { SmartTruncate } from '@/components/common/SmartTruncate';
 import { formatBytesGB } from '@/shared/utils/format-utils';
+import { formatListenAddress } from '@/shared/utils/listen-address';
 import { SYNC_STATUS_COLORS, RUN_STATUS_COLORS } from '@/shared/utils/status-colors';
 import type { ForwardRule, ForwardAgent, RuleOverallStatusResponse, RuleSyncStatus, RuleRunStatus } from '@/api/forward';
 import type { Node } from '@/api/node';
@@ -433,7 +434,7 @@ const FlowPathDisplay: React.FC<FlowPathDisplayProps> = ({ rule, agentsMap, node
   // Get entry agent info
   const entryAgent = agentsMap[rule.agentId];
   const entryName = entryAgent?.name || `ID: ${rule.agentId.slice(0, 8)}`;
-  const entryAddress = entryAgent?.publicAddress ? `${entryAgent.publicAddress}:${rule.listenPort}` : undefined;
+  const entryAddress = formatListenAddress(rule.listenIp, rule.listenPort, entryAgent?.publicAddress);
   const entryTunnelAddress = entryAgent?.tunnelAddress;
 
   // Get target display info

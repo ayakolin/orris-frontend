@@ -7,6 +7,7 @@
  * Recent changes:
  * - 2026-04-01: ExitAgent weight is now optional (omit = default 50, explicit 0 = backup agent)
  * - 2026-03-16: Added AddressPreference type and addressPreference field to ForwardRule, Create/Update request types for manual public/tunnel address selection
+ * - 2026-06-04: Added listenIp field to forward rule entities, requests, and sync status
  * - 2026-03-07: Added route (RouteConfig) field to ForwardRule, CreateForwardRuleRequest for per-rule routing configuration
  * - 2026-03-07: Added route, clearRoute fields to UpdateForwardRuleRequest for per-rule routing management
  * - 2026-02-03: Changed renewalAmount/renewalPeriod to costLabel for simplified cost display
@@ -164,6 +165,7 @@ export interface ForwardRule {
   chainAgentIds?: string[]; // for chain and direct_chain types (ordered list of Stripe-style agent IDs)
   chainPortConfig?: Record<string, number>; // for direct_chain type (agent ID -> listen port)
   name: string;
+  listenIp?: string; // local IP address to bind for inbound listening (empty/undefined = all addresses)
   listenPort: number;
   targetAddress?: string; // for direct, entry, chain, and direct_chain exit types
   targetPort?: number; // for direct, entry, chain, and direct_chain exit types
@@ -260,6 +262,7 @@ export interface CreateForwardRuleRequest {
   tunnelType?: TunnelType; // tunnel type: ws or tls (default: ws) (Added: 2025-12-24)
   tunnelHops?: number; // number of hops using tunnel (undefined=full tunnel, N=first N hops use tunnel) (Added: 2025-12-25)
   name: string;
+  listenIp?: string; // local IP address to bind for inbound listening (omit/empty = all addresses)
   listenPort?: number; // listen port (omit or 0 = auto-assign from agent's allowed range, required for external)
   targetAddress?: string; // for direct, entry, chain, and direct_chain types (mutually exclusive with targetNodeId)
   targetPort?: number; // for direct, entry, chain, and direct_chain types (mutually exclusive with targetNodeId)
@@ -296,6 +299,7 @@ export interface UpdateForwardRuleRequest {
   chainPortConfig?: Record<string, number>; // update chain port config (for direct_chain type rules)
   tunnelHops?: number; // number of hops using tunnel for hybrid chain (undefined=no change, 0=all direct) (Added: 2025-12-26)
   tunnelType?: TunnelType; // tunnel type: ws or tls (Added: 2025-12-24)
+  listenIp?: string; // local IP address to bind for inbound listening (empty = all addresses)
   listenPort?: number;
   targetAddress?: string; // mutually exclusive with targetNodeId
   targetPort?: number; // mutually exclusive with targetNodeId
@@ -1287,6 +1291,8 @@ export interface RuleSyncStatusItem {
   syncStatus: RuleSyncStatus;
   /** Runtime status: running, stopped, error, starting */
   runStatus: RuleRunStatus;
+  /** Actual listening IP; empty/undefined means all addresses */
+  listenIp?: string;
   /** Actual listening port */
   listenPort: number;
   /** Current number of connections */
@@ -1313,6 +1319,8 @@ export interface AgentRuleSyncStatus {
   syncStatus: RuleSyncStatus;
   /** Runtime status: running, stopped, error, starting, unknown */
   runStatus: RuleRunStatus | 'unknown';
+  /** Actual listening IP; empty/undefined means all addresses */
+  listenIp?: string;
   /** Actual listening port */
   listenPort: number;
   /** Current number of connections */
@@ -1630,6 +1638,7 @@ export interface CreateSubscriptionForwardRuleRequest {
   chainAgentIds?: string[]; // required for chain and direct_chain types (ordered list of intermediate agents)
   chainPortConfig?: Record<string, number>; // required for direct_chain type (agent ID -> listen port)
   name: string;
+  listenIp?: string; // local IP address to bind for inbound listening (omit/empty = all addresses)
   listenPort?: number; // listen port (omit or 0 = auto-assign from agent's allowed range)
   targetAddress?: string; // for direct, entry, chain, and direct_chain types (mutually exclusive with targetNodeId)
   targetPort?: number; // for direct, entry, chain, and direct_chain types (mutually exclusive with targetNodeId)
@@ -1659,6 +1668,7 @@ export interface UpdateSubscriptionForwardRuleRequest {
   chainPortConfig?: Record<string, number>; // update chain port config (for direct_chain type rules)
   tunnelHops?: number; // number of hops using tunnel for hybrid chain (undefined=no change, 0=all direct)
   tunnelType?: TunnelType; // tunnel type: ws or tls
+  listenIp?: string; // local IP address to bind for inbound listening (empty = all addresses)
   listenPort?: number;
   targetAddress?: string; // mutually exclusive with targetNodeId
   targetPort?: number; // mutually exclusive with targetNodeId

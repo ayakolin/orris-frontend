@@ -176,12 +176,11 @@ export const CreateForwardRuleDialog: React.FC<CreateForwardRuleDialogProps> = (
             {form.formData.ruleType !== "external" && (
               <FormSection title={t("admin.forwardRules.form.forwardAgent")}>
                 <div className="grid grid-cols-6 gap-x-4 gap-y-4">
-                  {/* Forward Agent - 3 cols */}
                   <FormField
                     label={t("admin.forwardRules.form.forwardAgent")}
                     required
                     error={form.errors.agentId}
-                    className="col-span-6 sm:col-span-3"
+                    className="col-span-6 sm:col-span-2"
                   >
                     <Select
                       value={form.formData.agentId}
@@ -216,11 +215,23 @@ export const CreateForwardRuleDialog: React.FC<CreateForwardRuleDialogProps> = (
                     </Select>
                   </FormField>
 
-                  {/* Listen Port - 1.5 cols */}
+                  <FormField
+                    label={t("admin.forwardRules.form.listenIp")}
+                    hint={t("admin.forwardRules.form.listenIpHint")}
+                    className="col-span-6 sm:col-span-2"
+                  >
+                    <Input
+                      value={form.formData.listenIp}
+                      onChange={(e) => form.handleChange("listenIp", e.target.value)}
+                      placeholder={t("admin.forwardRules.form.listenIpPlaceholder")}
+                      className="font-mono"
+                    />
+                  </FormField>
+
                   <FormField
                     label={t("admin.forwardRules.form.listenPort")}
                     error={form.errors.listenPort}
-                    className="col-span-3 sm:col-span-2"
+                    className="col-span-3 sm:col-span-1"
                   >
                     <Input
                       type="number"
@@ -288,7 +299,7 @@ export const CreateForwardRuleDialog: React.FC<CreateForwardRuleDialogProps> = (
                       label={t("admin.forwardRules.form.serverAddress")}
                       required
                       error={form.errors.serverAddress}
-                      className="col-span-6 sm:col-span-4"
+                      className="col-span-6 sm:col-span-3"
                     >
                       <Input
                         value={form.formData.serverAddress}
@@ -303,10 +314,23 @@ export const CreateForwardRuleDialog: React.FC<CreateForwardRuleDialogProps> = (
                     </FormField>
 
                     <FormField
+                      label={t("admin.forwardRules.form.listenIp")}
+                      hint={t("admin.forwardRules.form.listenIpHint")}
+                      className="col-span-6 sm:col-span-2"
+                    >
+                      <Input
+                        value={form.formData.listenIp}
+                        onChange={(e) => form.handleChange("listenIp", e.target.value)}
+                        placeholder={t("admin.forwardRules.form.listenIpPlaceholder")}
+                        className="font-mono"
+                      />
+                    </FormField>
+
+                    <FormField
                       label={t("admin.forwardRules.form.listenPort")}
                       required
                       error={form.errors.listenPort}
-                      className="col-span-6 sm:col-span-2"
+                      className="col-span-6 sm:col-span-1"
                     >
                       <Input
                         type="number"

@@ -82,6 +82,7 @@ export const EditUserForwardRuleDialog: React.FC<EditUserForwardRuleDialogProps>
     targetNodeId: '',
     exitAgentId: '',
     exitAgents: [] as ExitAgent[],
+    listenIp: '',
     protocol: 'tcp' as ForwardProtocol,
     ipVersion: 'auto' as IPVersion,
     addressPreference: 'auto' as AddressPreference,
@@ -114,6 +115,7 @@ export const EditUserForwardRuleDialog: React.FC<EditUserForwardRuleDialogProps>
         targetNodeId: rule.targetNodeId || '',
         exitAgentId: rule.exitAgentId || '',
         exitAgents: rule.exitAgents || [],
+        listenIp: rule.listenIp || '',
         protocol: rule.protocol,
         ipVersion: rule.ipVersion,
         addressPreference: rule.addressPreference || 'auto',
@@ -197,6 +199,7 @@ export const EditUserForwardRuleDialog: React.FC<EditUserForwardRuleDialogProps>
     // Check basic field changes
     const basicChanges =
       formData.name !== rule.name ||
+      formData.listenIp.trim() !== (rule.listenIp || '') ||
       formData.protocol !== rule.protocol ||
       formData.ipVersion !== rule.ipVersion ||
       formData.remark !== (rule.remark || '');
@@ -250,6 +253,9 @@ export const EditUserForwardRuleDialog: React.FC<EditUserForwardRuleDialogProps>
     }
     if (formData.protocol !== rule.protocol) {
       updates.protocol = formData.protocol;
+    }
+    if (formData.listenIp.trim() !== (rule.listenIp || '')) {
+      updates.listenIp = formData.listenIp.trim();
     }
     if (formData.ipVersion !== rule.ipVersion) {
       updates.ipVersion = formData.ipVersion;
@@ -473,6 +479,21 @@ export const EditUserForwardRuleDialog: React.FC<EditUserForwardRuleDialogProps>
                   <p className="text-xs text-muted-foreground">{t('admin.forwardRules.form.addressPreferenceHint')}</p>
                 </div>
               )}
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="edit-listenIp">{t('userForwardRules.form.listenIp')}</Label>
+                <Input
+                  id="edit-listenIp"
+                  value={formData.listenIp}
+                  onChange={(e) => handleChange('listenIp', e.target.value)}
+                  placeholder={t('userForwardRules.form.listenIpPlaceholder')}
+                  className="font-mono"
+                  disabled={isUpdating}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {t('userForwardRules.form.listenIpHint')}
+                </p>
+              </div>
 
               {/* entry type: exit agent selection */}
               {rule.ruleType === 'entry' && (
@@ -721,6 +742,10 @@ export const EditUserForwardRuleDialog: React.FC<EditUserForwardRuleDialogProps>
               <div>
                 <span className="text-muted-foreground">{t('userForwardRules.form.readonlyInfo.listenPort')}</span>
                 <span className="font-mono">{rule.listenPort || t('userForwardRules.form.readonlyInfo.systemAssigned')}</span>
+              </div>
+              <div>
+                <span className="text-muted-foreground">{t('userForwardRules.form.readonlyInfo.listenIp')}</span>
+                <span className="font-mono">{rule.listenIp || t('userForwardRules.form.allListenIps')}</span>
               </div>
             </div>
             {/* chain/direct_chain type shows relay nodes */}

@@ -287,6 +287,15 @@ export const EditForwardRuleSheet: React.FC<EditForwardRuleSheetProps> = ({
                   />
                 </FormField>
 
+                <FormField label={t('admin.forwardRules.form.listenIp')} hint={t('admin.forwardRules.form.listenIpHint')}>
+                  <MobileFormInput
+                    placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                    value={form.formData.listenIp || ''}
+                    onChange={(value) => form.handleChange('listenIp', value)}
+                    className="font-mono"
+                  />
+                </FormField>
+
                 <FormField label={t('common.fields.sortOrder')}>
                   <MobileFormInput
                     type="number"
@@ -455,6 +464,15 @@ export const EditForwardRuleSheet: React.FC<EditForwardRuleSheetProps> = ({
                   placeholder={t('admin.forwardRules.form.listenPortAutoHint')}
                   value={form.formData.listenPort ? String(form.formData.listenPort) : ''}
                   onChange={(value) => form.handleChange('listenPort', parseInt(value, 10) || 0)}
+                  className="font-mono"
+                />
+              </FormField>
+
+              <FormField label={t('admin.forwardRules.form.listenIp')} hint={t('admin.forwardRules.form.listenIpHint')}>
+                <MobileFormInput
+                  placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                  value={form.formData.listenIp || ''}
+                  onChange={(value) => form.handleChange('listenIp', value)}
                   className="font-mono"
                 />
               </FormField>

@@ -33,6 +33,7 @@ import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { CopyableAddress } from '@/components/common/CopyableAddress';
 import { SmartTruncate } from '@/components/common/SmartTruncate';
 import { formatBytesGB } from '@/shared/utils/format-utils';
+import { formatListenAddress } from '@/shared/utils/listen-address';
 import type { ForwardRule, UserForwardAgent } from '@/api/forward';
 
 interface SubscriptionForwardRuleListProps {
@@ -277,9 +278,7 @@ export const SubscriptionForwardRuleList: React.FC<SubscriptionForwardRuleListPr
           const rule = row.original;
           const agent = agentsMap[rule.agentId];
           const agentName = agent?.name || `ID: ${rule.agentId.slice(0, 8)}...`;
-          const entryAddress = agent?.publicAddress
-            ? `${agent.publicAddress}:${rule.listenPort}`
-            : '-';
+          const entryAddress = formatListenAddress(rule.listenIp, rule.listenPort, agent?.publicAddress);
           return (
             <div className="space-y-0.5 min-w-0">
               <div className="flex items-center gap-1.5 text-sm">

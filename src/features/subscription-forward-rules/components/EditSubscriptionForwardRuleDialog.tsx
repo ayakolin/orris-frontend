@@ -92,6 +92,7 @@ export const EditSubscriptionForwardRuleDialog: React.FC<EditSubscriptionForward
     targetNodeId: '',
     exitAgentId: '',
     exitAgents: [] as ExitAgent[],
+    listenIp: '',
     protocol: 'tcp' as ForwardProtocol,
     ipVersion: 'auto' as IPVersion,
     addressPreference: 'auto' as AddressPreference,
@@ -124,6 +125,7 @@ export const EditSubscriptionForwardRuleDialog: React.FC<EditSubscriptionForward
         targetNodeId: rule.targetNodeId || '',
         exitAgentId: rule.exitAgentId || '',
         exitAgents: rule.exitAgents || [],
+        listenIp: rule.listenIp || '',
         protocol: rule.protocol,
         ipVersion: rule.ipVersion,
         addressPreference: rule.addressPreference || 'auto',
@@ -207,6 +209,7 @@ export const EditSubscriptionForwardRuleDialog: React.FC<EditSubscriptionForward
     // Check basic field changes
     const basicChanges =
       formData.name !== rule.name ||
+      formData.listenIp.trim() !== (rule.listenIp || '') ||
       formData.protocol !== rule.protocol ||
       formData.ipVersion !== rule.ipVersion ||
       formData.remark !== (rule.remark || '');
@@ -260,6 +263,9 @@ export const EditSubscriptionForwardRuleDialog: React.FC<EditSubscriptionForward
     }
     if (formData.protocol !== rule.protocol) {
       updates.protocol = formData.protocol;
+    }
+    if (formData.listenIp.trim() !== (rule.listenIp || '')) {
+      updates.listenIp = formData.listenIp.trim();
     }
     if (formData.ipVersion !== rule.ipVersion) {
       updates.ipVersion = formData.ipVersion;
@@ -596,6 +602,19 @@ export const EditSubscriptionForwardRuleDialog: React.FC<EditSubscriptionForward
                   </div>
                 )}
 
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="edit-sub-listenIp">{t('admin.forwardRules.form.listenIp')}</Label>
+                  <Input
+                    id="edit-sub-listenIp"
+                    value={formData.listenIp}
+                    onChange={(e) => handleChange('listenIp', e.target.value)}
+                    placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                    className="font-mono"
+                    disabled={isUpdating}
+                  />
+                  <p className="text-xs text-muted-foreground">{t('admin.forwardRules.form.listenIpHint')}</p>
+                </div>
+
                 {/* Target type selection */}
                 <div className="flex flex-col gap-2 @md:col-span-2">
                   <Label>
@@ -744,6 +763,10 @@ export const EditSubscriptionForwardRuleDialog: React.FC<EditSubscriptionForward
                 <div>
                   <span className="text-muted-foreground">{t('admin.forwardRules.form.listenPort')}:</span>
                   <span className="font-mono">{rule.listenPort || t('subscriptionForwardRules.systemAssigned')}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">{t('admin.forwardRules.form.listenIp')}:</span>
+                  <span className="font-mono">{rule.listenIp || t('admin.forwardRules.form.allListenIps')}</span>
                 </div>
               </div>
               {/* chain/direct_chain type: show intermediate nodes */}

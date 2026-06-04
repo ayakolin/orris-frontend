@@ -50,6 +50,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/common/Pop
 import { Skeleton } from '@/components/common/Skeleton';
 import { CopyableAddress } from '@/components/common/CopyableAddress';
 import { formatBytesGB } from '@/shared/utils/format-utils';
+import { formatListenAddress } from '@/shared/utils/listen-address';
 import { ENABLED_STATUS_CONFIG } from '@/shared/constants/status-config';
 import { SYNC_STATUS_COLORS, RUN_STATUS_COLORS } from '@/shared/utils/status-colors';
 import type { ForwardRule, ForwardAgent, RuleOverallStatusResponse, RuleSyncStatus, RuleRunStatus } from '@/api/forward';
@@ -230,7 +231,7 @@ const FlowPathDisplayMobile: React.FC<{
   // Get entry agent info
   const entryAgent = agentsMap[rule.agentId];
   const entryName = entryAgent?.name || `ID: ${rule.agentId.slice(0, 8)}`;
-  const entryAddress = entryAgent?.publicAddress ? `${entryAgent.publicAddress}:${rule.listenPort}` : undefined;
+  const entryAddress = formatListenAddress(rule.listenIp, rule.listenPort, entryAgent?.publicAddress);
 
   // Get target display info
   const getTargetDisplay = () => {
@@ -418,7 +419,7 @@ export const ForwardRuleMobileList: React.FC<ForwardRuleMobileListProps> = ({
   // Get entry address for a rule
   const getEntryAddress = useCallback((rule: ForwardRule) => {
     const agent = agentsMap[rule.agentId];
-    return agent?.publicAddress ? `${agent.publicAddress}:${rule.listenPort}` : '-';
+    return formatListenAddress(rule.listenIp, rule.listenPort, agent?.publicAddress);
   }, [agentsMap]);
 
   // Render sync and run status

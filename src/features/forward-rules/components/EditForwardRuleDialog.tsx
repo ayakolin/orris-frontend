@@ -157,7 +157,7 @@ export const EditForwardRuleDialog: React.FC<EditForwardRuleDialogProps> = ({
                     label={t('admin.forwardRules.form.serverAddress')}
                     required
                     error={form.errors.serverAddress}
-                    className="col-span-6 sm:col-span-4"
+                    className="col-span-6 sm:col-span-3"
                   >
                     <Input
                       value={form.formData.serverAddress || ''}
@@ -170,10 +170,23 @@ export const EditForwardRuleDialog: React.FC<EditForwardRuleDialogProps> = ({
                   </FormField>
 
                   <FormField
+                    label={t('admin.forwardRules.form.listenIp')}
+                    hint={t('admin.forwardRules.form.listenIpHint')}
+                    className="col-span-6 sm:col-span-2"
+                  >
+                    <Input
+                      value={form.formData.listenIp || ''}
+                      onChange={(e) => form.handleChange('listenIp', e.target.value)}
+                      placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                      className="font-mono"
+                    />
+                  </FormField>
+
+                  <FormField
                     label={t('admin.forwardRules.form.listenPort')}
                     required
                     error={form.errors.listenPort}
-                    className="col-span-6 sm:col-span-2"
+                    className="col-span-6 sm:col-span-1"
                   >
                     <Input
                       type="number"
@@ -248,7 +261,7 @@ export const EditForwardRuleDialog: React.FC<EditForwardRuleDialogProps> = ({
                   <FormField
                     label={t('admin.forwardRules.form.entryAgent')}
                     required
-                    className="col-span-6 sm:col-span-3"
+                    className="col-span-6 sm:col-span-2"
                   >
                     <Select
                       value={form.formData.agentId || ''}
@@ -278,9 +291,22 @@ export const EditForwardRuleDialog: React.FC<EditForwardRuleDialogProps> = ({
                   </FormField>
 
                   <FormField
+                    label={t('admin.forwardRules.form.listenIp')}
+                    hint={t('admin.forwardRules.form.listenIpHint')}
+                    className="col-span-6 sm:col-span-2"
+                  >
+                    <Input
+                      value={form.formData.listenIp || ''}
+                      onChange={(e) => form.handleChange('listenIp', e.target.value)}
+                      placeholder={t('admin.forwardRules.form.listenIpPlaceholder')}
+                      className="font-mono"
+                    />
+                  </FormField>
+
+                  <FormField
                     label={t('admin.forwardRules.form.listenPort')}
                     error={form.errors.listenPort}
-                    className="col-span-3 sm:col-span-2"
+                    className="col-span-3 sm:col-span-1"
                   >
                     <Input
                       type="number"

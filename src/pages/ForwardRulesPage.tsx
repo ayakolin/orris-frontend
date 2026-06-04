@@ -314,6 +314,7 @@ export function ForwardRulesPage() {
         chainAgentIds: filteredChainAgentIds,
         chainPortConfig: filteredChainPortConfig,
         name: `${rule.name} - ${t('common.actions.copy')}`,
+        listenIp: rule.listenIp,
         listenPort: rule.listenPort,
         targetAddress: rule.targetAddress,
         targetPort: rule.targetPort,

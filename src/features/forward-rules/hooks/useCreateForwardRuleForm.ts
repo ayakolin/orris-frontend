@@ -41,6 +41,7 @@ export interface CreateForwardRuleFormData {
   tunnelType: TunnelType;
   tunnelHops: number | undefined;
   name: string;
+  listenIp: string;
   listenPort: number;
   targetAddress: string;
   targetPort: number;
@@ -85,6 +86,7 @@ const DEFAULT_FORM_DATA: CreateForwardRuleFormData = {
   tunnelType: 'ws',
   tunnelHops: undefined,
   name: '',
+  listenIp: '',
   listenPort: 0,
   targetAddress: '',
   targetPort: 0,
@@ -147,6 +149,7 @@ export function useCreateForwardRuleForm({
           tunnelType: initialData.tunnelType || 'ws',
           tunnelHops: initialData.tunnelHops,
           name: initialData.name || '',
+          listenIp: initialData.listenIp || '',
           listenPort: initialData.listenPort || 0,
           targetAddress: initialData.targetAddress || '',
           targetPort: initialData.targetPort || 0,
@@ -579,6 +582,7 @@ export function useCreateForwardRuleForm({
         name: formData.name.trim(),
         serverAddress: formData.serverAddress.trim(),
         listenPort: formData.listenPort,
+        listenIp: formData.listenIp.trim() || undefined,
         targetNodeId: formData.targetNodeId,
         externalSource: formData.externalSource?.trim() || undefined,
         externalRuleId: formData.externalRuleId?.trim() || undefined,
@@ -601,6 +605,9 @@ export function useCreateForwardRuleForm({
     };
 
     // Listen port (optional, 0 = auto-assign)
+    if (formData.listenIp.trim()) {
+      submitData.listenIp = formData.listenIp.trim();
+    }
     if (formData.listenPort) {
       submitData.listenPort = formData.listenPort;
     }

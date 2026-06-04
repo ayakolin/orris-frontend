@@ -82,6 +82,7 @@ export const CreateUserForwardRuleDialog: React.FC<CreateUserForwardRuleDialogPr
     chainAgentIds: [] as string[],
     chainPortConfig: {} as Record<string, number>,
     name: '',
+    listenIp: '',
     listenPort: '',
     targetAddress: '',
     targetPort: '',
@@ -114,6 +115,7 @@ export const CreateUserForwardRuleDialog: React.FC<CreateUserForwardRuleDialogPr
         chainAgentIds: [],
         chainPortConfig: {},
         name: '',
+        listenIp: '',
         listenPort: '',
         targetAddress: '',
         targetPort: '',
@@ -275,6 +277,7 @@ export const CreateUserForwardRuleDialog: React.FC<CreateUserForwardRuleDialogPr
       agentId: formData.agentId,
       ruleType: formData.ruleType,
       name: formData.name.trim(),
+      listenIp: formData.listenIp.trim() || undefined,
       listenPort: formData.listenPort ? parseInt(formData.listenPort) : undefined,
       sortOrder: formData.sortOrder ? parseInt(formData.sortOrder) : undefined,
       protocol: formData.protocol,
@@ -673,7 +676,21 @@ export const CreateUserForwardRuleDialog: React.FC<CreateUserForwardRuleDialogPr
             <h3 className="text-sm font-medium text-muted-foreground mb-3">{t('userForwardRules.form.forwardConfig')}</h3>
             <Separator className="mb-4" />
             <div className="grid grid-cols-1 @md:grid-cols-2 gap-4">
-              {/* Listen port */}
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="listenIp">{t('userForwardRules.form.listenIp')}</Label>
+                <Input
+                  id="listenIp"
+                  value={formData.listenIp}
+                  onChange={(e) => handleChange('listenIp', e.target.value)}
+                  placeholder={t('userForwardRules.form.listenIpPlaceholder')}
+                  className="font-mono"
+                  disabled={isCreating}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {t('userForwardRules.form.listenIpHint')}
+                </p>
+              </div>
+
               <div className="flex flex-col gap-2">
                 <Label htmlFor="listenPort">{t('userForwardRules.form.listenPort')}</Label>
                 <Input

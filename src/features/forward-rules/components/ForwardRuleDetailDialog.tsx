@@ -42,6 +42,7 @@ import {
 } from 'lucide-react';
 import { SYNC_STATUS_COLORS, RUN_STATUS_COLORS } from '@/shared/utils/status-colors';
 import { RouteConfigDisplay } from '@/features/nodes/components/RouteConfigDisplay';
+import { formatListenAddress } from '@/shared/utils/listen-address';
 import { useRuleOverallStatus } from '../hooks/useForwardRules';
 import type { ForwardRule, ForwardAgent, RuleSyncStatus, RuleRunStatus, AgentRuleSyncStatus } from '@/api/forward';
 import type { Node } from '@/api/node';
@@ -388,7 +389,7 @@ const AgentStatusRow: React.FC<{ status: AgentRuleSyncStatus }> = ({ status }) =
           <RunIcon className="size-3.5" />
         </span>
         <span className="text-muted-foreground tabular-nums font-mono whitespace-nowrap">
-          :{status.listenPort}
+          {formatListenAddress(status.listenIp, status.listenPort)}
         </span>
       </div>
     </div>
@@ -613,6 +614,12 @@ export const ForwardRuleDetailDialog: React.FC<ForwardRuleDetailDialogProps> = (
                     value={rule.listenPort}
                     color="text-info"
                   />
+                  <StatCard
+                    icon={Globe}
+                    label={t('admin.forwardRules.detail.listenIp')}
+                    value={rule.listenIp || t('admin.forwardRules.form.allListenIps')}
+                    color="text-info"
+                  />
                   {rule.targetNodeId && (
                     <StatCard
                       icon={Server}
@@ -678,8 +685,8 @@ export const ForwardRuleDetailDialog: React.FC<ForwardRuleDetailDialogProps> = (
                   />
                   <StatCard
                     icon={Globe}
-                    label={t('admin.forwardRules.detail.listenPort')}
-                    value={rule.listenPort}
+                    label={t('admin.forwardRules.detail.listenAddress')}
+                    value={formatListenAddress(rule.listenIp, rule.listenPort)}
                     color="text-info"
                   />
                   <StatCard

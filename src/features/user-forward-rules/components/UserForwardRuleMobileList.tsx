@@ -42,6 +42,7 @@ import { cn } from '@/lib/utils';
 import { CopyableAddress } from '@/components/common/CopyableAddress';
 import { SmartTruncate } from '@/components/common/SmartTruncate';
 import { formatBytesGB } from '@/shared/utils/format-utils';
+import { formatListenAddress } from '@/shared/utils/listen-address';
 import type { ForwardRule, UserForwardAgent } from '@/api/forward';
 
 interface UserForwardRuleMobileListProps {
@@ -367,7 +368,7 @@ export const UserForwardRuleMobileList: React.FC<UserForwardRuleMobileListProps>
   // Get entry address for a rule
   const getEntryAddress = useCallback((rule: ForwardRule) => {
     const agent = agentsMap[rule.agentId];
-    return agent?.publicAddress ? `${agent.publicAddress}:${rule.listenPort}` : '-';
+    return formatListenAddress(rule.listenIp, rule.listenPort, agent?.publicAddress);
   }, [agentsMap]);
 
   // Render dropdown menu

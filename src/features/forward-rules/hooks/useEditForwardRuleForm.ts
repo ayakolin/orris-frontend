@@ -85,6 +85,7 @@ export function useEditForwardRuleForm({
       setFormData({
         name: rule.name,
         protocol: rule.protocol,
+        listenIp: rule.listenIp || '',
         listenPort: rule.listenPort,
         targetAddress: rule.targetAddress,
         targetPort: rule.targetPort,
@@ -420,8 +421,12 @@ export function useEditForwardRuleForm({
     if (formData.name !== rule.name) updates.name = formData.name;
     if (formData.remark !== rule.remark) updates.remark = formData.remark;
 
+    const currentListenIp = rule.listenIp || '';
+    const nextListenIp = formData.listenIp?.trim() || '';
+
     // External type has different fields
     if (rule.ruleType === 'external') {
+      if (nextListenIp !== currentListenIp) updates.listenIp = nextListenIp;
       if (formData.listenPort !== rule.listenPort) updates.listenPort = formData.listenPort;
       if (formData.serverAddress !== rule.serverAddress) {
         (updates as Record<string, unknown>).serverAddress = formData.serverAddress;
@@ -452,6 +457,7 @@ export function useEditForwardRuleForm({
 
     // Non-external fields
     if (formData.protocol !== rule.protocol) updates.protocol = formData.protocol;
+    if (nextListenIp !== currentListenIp) updates.listenIp = nextListenIp;
     if (formData.listenPort !== rule.listenPort) updates.listenPort = formData.listenPort;
     if (formData.ipVersion !== rule.ipVersion) updates.ipVersion = formData.ipVersion;
     if (formData.bindIp !== rule.bindIp) updates.bindIp = formData.bindIp;
@@ -616,6 +622,7 @@ export function useEditForwardRuleForm({
       setFormData({
         name: rule.name,
         protocol: rule.protocol,
+        listenIp: rule.listenIp || '',
         listenPort: rule.listenPort,
         targetAddress: rule.targetAddress,
         targetPort: rule.targetPort,
